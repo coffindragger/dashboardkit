@@ -1,0 +1,25 @@
+{%extends "dashboard/base.html"%}
+
+{%block yui-hd%}
+    {{dashboard.header_html|safe}}
+{%endblock%}
+
+
+{%block yui-bd%}
+
+    {%for grid_type,gadgets in dashboard.gadget_rows%}
+        <div class="{{grid_type}}">
+            {%for gadget in gadgets%}
+            <div class="yui-u {%if forloop.first%}first{%endif%}">
+                {{gadget}}
+            </div>
+            {%endfor%}
+        </div>
+    {%endfor%}
+
+{%endblock%}
+
+
+{%block yui-ft%}
+    {{dashboard.footer_html|safe}}
+{%endblock%}

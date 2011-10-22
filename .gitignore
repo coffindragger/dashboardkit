@@ -1,0 +1,6 @@
+.*.sw*
+*.pyc
+local.sqlite3
+local_settings.py
+uploads/*
+static/*
