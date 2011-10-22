@@ -1,7 +1,10 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import Group
 
 from hashlib import sha1
+import zipfile
+import os
 
 
 ACCESS_READ = 'r'
@@ -41,8 +44,6 @@ class Dashboard(models.Model):
             if dg.row not in rows:
                 rows[dg.row] = []
             rows[dg.row].append( (dg.position,dg.gadget) )
-
-
         for row_no,gadgets in sorted(rows.items(), lambda x,y: cmp(x[0],y[0])):
             if len(gadgets) >= 3:
                 yui_grid = 'yui-gb'
@@ -70,14 +71,43 @@ class Gadget(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.uuid = self.magic_cookie
+        self.magic_cookie
         super(Gadget, self).save(*args, **kwargs)
+        self.explode_archive()
 
     @property
     def magic_cookie(self):
         if not self.uuid:
             self.uuid = sha1(self.name).hexdigest()
         return self.uuid
+
+    @property
+    def explode_root(self):
+        if not hasattr(settings, 'EXPLODE_ROOT'):
+            raise AttributeError("EXPLODE_ROOT must be defined.")
+        return os.path.join(settings.EXPLODE_ROOT, 'gadgets', self.magic_cookie)
+
+    def explode_archive(self):
+        zf = zipfile.ZipFile(self.archive.path)
+        zf.extractall(self.explode_root)
+        zf.close()
+        return ""
+
+    @property
+    def document_root(self):
+        if hasattr(self, '_document_root'):
+            return self._document_root
+
+        # look for a file called 'index.html', if oyu find one, use its directory as the toplevel directory.
+
+        for dirname,dirs,files in os.walk(self.explode_root):
+            if 'index.html' in files:
+                self._document_root = dirname.replace(settings.EXPLODE_ROOT,'')
+                return self._document_root
+
+        return None
+
+
 
 
 class GadgetTeam(models.Model):

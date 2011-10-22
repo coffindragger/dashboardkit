@@ -12,11 +12,18 @@ class DashboardAdmin(OwnerAdmin):
     class DashboardGadgetInline(admin.TabularInline):
         model = DashboardGadget
         extra = 0
+    class DashboardTeamInline(admin.TabularInline):
+        model = DashboardTeam
+        extra = 0
     list_display = ('__unicode__','owner')
-    inlines = (DashboardGadgetInline,)
+    inlines = (DashboardGadgetInline,DashboardTeamInline)
 admin.site.register(Dashboard, DashboardAdmin)
 
 
 class GadgetAdmin(OwnerAdmin):
+    class GadgetTeamInline(admin.TabularInline):
+        model = GadgetTeam
+        extra = 0
     list_display = ('__unicode__','magic_cookie','owner')
+    inlines = (GadgetTeamInline,)
 admin.site.register(Gadget, GadgetAdmin)

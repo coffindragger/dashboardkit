@@ -2,6 +2,23 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset-fonts-grids/reset-fonts-grids.css"/>
+    <title>{{dashboard.title}}</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script>
+        // resize iframes to fit their contents
+        $(function() {
+            $('iframe').bind('load', function() {
+                var iframe = $(this);
+                setTimeout(function() {
+                    var height = iframe.contents().height();
+                    var width = iframe.contents().width();
+                    iframe.css({"height": height+"px", "width": width+"px"});
+                }, 100);
+            });
+        });
+    </script>
+
 </head>
 <body>
     <div id="doc3" class="yui-t7">

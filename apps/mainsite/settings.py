@@ -54,8 +54,12 @@ STATICFILES_FINDERS = [
 ]
 
 
+EXPLODE_ROOT = os.path.join(TOP_DIR, 'explode')
+
 STATICFILES_DIRS = [
+    EXPLODE_ROOT,
 ]
+
 
 STATIC_ROOT = os.path.join(TOP_DIR, 'static')
 MEDIA_ROOT = os.path.join(TOP_DIR, 'uploads')

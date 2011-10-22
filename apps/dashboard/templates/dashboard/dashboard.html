@@ -11,7 +11,9 @@
         <div class="{{grid_type}}">
             {%for gadget in gadgets%}
             <div class="yui-u {%if forloop.first%}first{%endif%}">
-                {{gadget}}
+
+                <iframe src="{{STATIC_URL}}{{gadget.document_root}}/index.html" scrolling="no" frameBorder="0"></iframe>
+
             </div>
             {%endfor%}
         </div>
