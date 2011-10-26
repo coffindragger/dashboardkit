@@ -43,7 +43,7 @@ class Dashboard(models.Model):
         for dg in self.dashboardgadget_set.all():
             if dg.row not in rows:
                 rows[dg.row] = []
-            rows[dg.row].append( (dg.position,dg.gadget) )
+            rows[dg.row].append( (dg.position,(dg.gadget,dg.query_args)) )
         for row_no,gadgets in sorted(rows.items(), lambda x,y: cmp(x[0],y[0])):
             if len(gadgets) >= 3:
                 yui_grid = 'yui-gb'
@@ -124,6 +124,7 @@ class DashboardGadget(models.Model):
     row = models.PositiveIntegerField(default=0, choices=((c,c) for c in range(0,11)))
     position = models.PositiveIntegerField(default=1, choices=((c,c) for c in range(1,4)))
     gadget = models.ForeignKey(Gadget)
+    query_args = models.CharField(max_length=1024,blank=True)
 
 
     def __unicode__(self):

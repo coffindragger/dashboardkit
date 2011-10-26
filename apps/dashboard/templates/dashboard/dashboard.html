@@ -9,10 +9,10 @@
 
     {%for grid_type,gadgets in dashboard.gadget_rows%}
         <div class="{{grid_type}}">
-            {%for gadget in gadgets%}
+            {%for gadget,queryargs in gadgets%}
             <div class="yui-u {%if forloop.first%}first{%endif%}">
 
-                <iframe src="{{STATIC_URL}}{{gadget.document_root}}/index.html" scrolling="no" frameBorder="0"></iframe>
+                <iframe src="{{STATIC_URL}}{{gadget.document_root}}/index.html{{queryargs}}" scrolling="no" frameBorder="0"></iframe>
 
             </div>
             {%endfor%}
