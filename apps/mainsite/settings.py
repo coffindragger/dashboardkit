@@ -22,6 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.admin',
 
     'mainsite',
+    'dbtemplates',
+
     'dashboard',
 ]
 
@@ -46,6 +48,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 
 
 TEMPLATE_LOADERS = [
+    'dbtemplates.loaders.DatabaseTemplateLoader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 ]
@@ -86,6 +89,9 @@ USE_I18N = True
 USE_L10N = True
 
 
+LOGS_DIR = os.path.join(os.path.dirname(TOP_DIR), 'logs')
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
 
 LOGGING = {
     'version': 1,
@@ -98,7 +104,7 @@ LOGGING = {
         'ldap_debug': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(os.path.dirname(TOP_DIR), 'logs', 'ldap_debug.log'),
+            'filename': os.path.join(LOGS_DIR, 'ldap_debug.log'),
         }
     },
     'loggers': {
