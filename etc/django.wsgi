@@ -1,7 +1,6 @@
 import sys
 import os
 import imp
-from django.core.handlers.wsgi import WSGIHandler
 
 # assume we are in ./etc and we want to add ./apps to PYTHON_PATH
 TOP_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -19,14 +18,16 @@ activate_this = os.path.join(ENV_DIR, 'bin', 'activate_this.py')
 if os.path.exists(activate_this):
     execfile(activate_this, dict(__file__=activate_this))
 
+
 # determine the settings file to load, default to 'mainsite.settings'
 # if we are invoked as django_something, we will trying to load 'mainsite.settings_something'
 settings_name = 'mainsite.settings'
-if '_' in sys.argv[0]:
-    base, suffix = sys.argv[0].split('_',1)
-    settings_name += '_'+os.path.splitext(suffix)[0]
+#if '_' in os.path.basename(sys.argv[0]):
+#    base, suffix = os.path.basename(sys.argv[0]).split('_',1)
+#    settings_name += '_'+os.path.splitext(suffix)[0]
 
 # call django
+from django.core.handlers.wsgi import WSGIHandler
 os.environ['DJANGO_SETTINGS_MODULE'] = settings_name
 application = WSGIHandler()
 
