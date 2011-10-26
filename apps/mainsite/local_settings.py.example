@@ -36,3 +36,9 @@ CACHES = {
 #    '127.0.0.1',
 #)
 
+AUTHENTICATION_BACKENDS = [
+    'mainsite.backends.StaffLDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+AUTH_LDAP_SERVER_URI = "ldap://ldap.example.com"
+AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=example,dc=com"

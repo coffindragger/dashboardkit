@@ -9,6 +9,9 @@ if APPS_DIR not in sys.path:
 
 from mainsite import TOP_DIR
 
+
+
+
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -91,6 +94,11 @@ LOGGING = {
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'ldap_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(os.path.dirname(TOP_DIR), 'logs', 'ldap_debug.log'),
         }
     },
     'loggers': {
@@ -99,6 +107,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'django_auth_ldap': {
+            'level': 'DEBUG',
+            'handlers': ['ldap_debug'],
+            'propagate': True,
+        }
     }
 }
 
