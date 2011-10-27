@@ -31,8 +31,7 @@ class Dashboard(models.Model):
     url = models.CharField(max_length=1024, db_index=True)
     title = models.CharField(max_length=1024, blank=False)
     status = models.CharField(max_length=64, choices=STATUS_CHOICES, default=STATUS_DRAFT, db_index=True)
-    header_html = models.TextField(blank=True)
-    footer_html = models.TextField(blank=True)
+    template_name = models.CharField(max_length=1024, default='dashboard/base.html')
 
     def __unicode__(self):
         return self.title

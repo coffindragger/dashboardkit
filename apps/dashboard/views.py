@@ -4,7 +4,7 @@ from django import http
 
 
 class DashboardView(DetailView):
-    template_name = 'dashboard/dashboard.html'
+    template_name = 'dashboard/base.html'
     context_object_name = 'dashboard'
     model = Dashboard
 
@@ -14,3 +14,5 @@ class DashboardView(DetailView):
         except Dashboard.DoesNotExist:
             raise http.Http404
 
+    def get_template_names(self):
+        return [self.object.template_name]

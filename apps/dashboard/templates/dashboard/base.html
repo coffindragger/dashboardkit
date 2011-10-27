@@ -1,29 +1,26 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
+{%extends "base.html"%}
+
+{%block head%}
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset-fonts-grids/reset-fonts-grids.css"/>
     <title>{{dashboard.title}}</title>
+{%endblock%}
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script>
-        // resize iframes to fit their contents
-        $(function() {
-            $('iframe').bind('load', function() {
-                var iframe = $(this);
-                setTimeout(function() {
-                    var height = iframe.contents().height();
-                    var width = iframe.contents().width();
-                    iframe.css({"height": height+"px", "width": width+"px"});
-                }, 100);
-            });
-        });
-    </script>
-
-</head>
-<body>
+{%block body%}
     <div id="doc3" class="yui-t7">
         <div id="hd">{%block yui-hd%}{%endblock%}</div>
-        <div id="bd" role="main">{%block yui-bd%}{%endblock%}</div>
+        <div id="bd" role="main">
+            {%for grid_type,gadgets in dashboard.gadget_rows%}
+                <div class="{{grid_type}}">
+                    {%for gadget,queryargs in gadgets%}
+                    <div class="yui-u {%if forloop.first%}first{%endif%}">
+
+                        <iframe src="{{STATIC_URL}}{{gadget.document_root}}/index.html{{queryargs}}" scrolling="no" frameBorder="0"></iframe>
+
+                    </div>
+                    {%endfor%}
+                </div>
+            {%endfor%}
+        </div>
         <div id="ft">{%block yui-ft%}{%endblock%}</div>
     </div>
-</body>
+{%endblock%}
